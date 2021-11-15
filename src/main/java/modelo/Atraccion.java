@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import dao.AtraccionDAO;
 
 public class Atraccion extends Ofertable {
-	private int idAtracccion;
+	private int idAtraccion;
 	private String nombre;
 	private double costo;
 	private double tiempo;
@@ -17,7 +17,7 @@ public class Atraccion extends Ofertable {
 	}
 
 	public Atraccion(int idAtraccion, String nombre, double costo, double tiempo, Integer cupo, int tipo) {
-		this.idAtracccion = idAtraccion;
+		this.idAtraccion = idAtraccion;
 		this.nombre = nombre;
 		this.costo = costo;
 		this.tiempo = tiempo;
@@ -39,10 +39,14 @@ public class Atraccion extends Ofertable {
 		return this.cupo;
 	}
 
-	
-
+	@Override
 	public double getCosto() {
 		return this.costo;
+	}
+	
+	@Override
+	public double getTiempo() {
+		return this.tiempo;
 	}
 
 	public double calcularCosto(Atraccion[] atraccion) {
@@ -72,7 +76,7 @@ public class Atraccion extends Ofertable {
 
 	public int getIdAtraccion() {
 
-		return idAtracccion;
+		return idAtraccion;
 	}
 
 	@Override
@@ -84,7 +88,7 @@ public class Atraccion extends Ofertable {
 	@Override
 	public int getIdTipoAtraccion() {
 
-		return 0;
+		return tipo;
 	}
 
 }

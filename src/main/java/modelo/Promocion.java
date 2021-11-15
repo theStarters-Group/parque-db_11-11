@@ -1,6 +1,7 @@
 package modelo;
 
 public class Promocion extends Ofertable {
+	int idPromo;
 	int tipoPromo;
 	int tipoAtraccion;
 	String nombrePromocion;
@@ -21,6 +22,7 @@ public class Promocion extends Ofertable {
 	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
 			Atraccion[] atraccionesEnPromocion) {
 		super();
+		this.idPromo = idPromo;
 		this.tipoPromo = tipoPromo;
 		this.nombrePromocion = nombrePromocion;
 		this.atraccionesEnPromocion = atraccionesEnPromocion;
@@ -30,6 +32,7 @@ public class Promocion extends Ofertable {
 	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
 			String atracciones) {
 		super();
+		this.idPromo = idPromo;
 		this.tipoPromo = tipoPromo;
 		this.nombrePromocion = nombrePromocion;
 		this.atraccionesEnPromocion = null;
@@ -49,7 +52,6 @@ public class Promocion extends Ofertable {
 	}
 
 	public Promocion(String nombrePromocion) {
-		this.tipoPromo = tipoPromo;
 		this.nombrePromocion = nombrePromocion;
 	}
 
@@ -72,6 +74,12 @@ public class Promocion extends Ofertable {
 	// return atraccionesEnPromocion;
 
 	// }
+
+	@Override
+	public double getCosto() {
+		return this.costo;
+	}
+	
 
 	public double calcularCosto(Atraccion[] atraccionesEnPromocion) {
 
@@ -142,13 +150,12 @@ public class Promocion extends Ofertable {
 
 	@Override
 	public int getIdPromo() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return idPromo;
 	}
 
 	@Override
 	public int getIdTipoAtraccion() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -105,8 +105,6 @@ public class AtraccionDAO {
 		statement.setInt(1, id);
 		ResultSet resultados = statement.executeQuery();
 
-		// Atraccion atraccion = null;
-
 		if (resultados.next()) {
 			atraccion = toAtraccion(resultados);
 		}

@@ -29,6 +29,9 @@ public class App {
 
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		List<Usuario> usuarios = usuarioDAO.findAll();
+		for (Usuario usuario : usuarios) {
+			System.out.println(usuario.toString());
+		}
 		TipoAtraccionDAO tipoAtraccionDAO = new TipoAtraccionDAO();
 		List<TipoAtraccion> tipoAtracciones = tipoAtraccionDAO.findAll();
 		AtraccionDAO atraccionDAO = new AtraccionDAO();
@@ -40,8 +43,7 @@ public class App {
 		ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
 		// PromocionDAO listaAtraccionesDAO = new PromocionDAO();
 		// List<String> listaAtracciones = listaAtraccionesDAO.findAtracciones();
-		
-		
+
 //		for (Promocion promocion : promociones) {
 
 //			String[] s = promocion.getAtracciones().split(" ");
@@ -80,112 +82,113 @@ public class App {
 //			 System.arraycopy(atracciones, 0, ofertas, totalPromociones,
 //			totalAtracciones);
 
-			List<Ofertable> ofertas = new LinkedList<Ofertable>();
-			ofertas.addAll(promociones);
-			ofertas.addAll(atracciones);
+		List<Ofertable> ofertas = new LinkedList<Ofertable>();
+		ofertas.addAll(promociones);
+		ofertas.addAll(atracciones);
 
-			// Ofertable[] ofertas = new Ofertable[atracciones.length + promociones.length];
+		// Ofertable[] ofertas = new Ofertable[atracciones.length + promociones.length];
 
-			// System.arraycopy(promociones, 0, ofertas, 0, promociones.length);
-			// System.arraycopy(atracciones, 0, ofertas, promociones.length,
-			// atracciones.length);
-			System.out.println("                       PARQUE DE LA COSTA");
-			System.out.println("                  Presione ENTER para comenzar");
-			Scanner in = new Scanner(System.in);
+		// System.arraycopy(promociones, 0, ofertas, 0, promociones.length);
+		// System.arraycopy(atracciones, 0, ofertas, promociones.length,
+		// atracciones.length);
+		System.out.println("                       PARQUE DE LA COSTA");
+		System.out.println("                  Presione ENTER para comenzar");
+		Scanner in = new Scanner(System.in);
 
-			String entradaConsola = in.nextLine();
-			// System.out.println(ofertas);
-			for (Usuario usuario : usuarios) {
+		String entradaConsola = in.nextLine();
+		// System.out.println(ofertas);
+		for (Usuario usuario : usuarios) {
 
-				int atraccionFavorita = usuario.getTipo();
+			int atraccionFavorita = usuario.getTipo();
 
-				LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
+			LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
 
-				ofertas.sort(new ComparadorDeOfertas(atraccionFavorita));
-				// System.out.println(ofertas);
-				System.out.println("\n");
-				System.out.println("                    ¡Bienvenido " + usuario.getNombre() + "!" + " \n");
-				System.out.println("Saldo disponible: $" + usuario.getDinero() + "     Tiempo disponible: "
-						+ usuario.getTiempo() + " hs." + "\n");
-				System.out.println("                Atracción favorita: " + usuario.getTipo());
-				System.out.println("\n");
+			ofertas.sort(new ComparadorDeOfertas(atraccionFavorita));
+//				for (Ofertable ofertable : ofertas) {
+//					System.out.println(ofertable);
+//				}
+//				System.out.println(ofertas);
+			System.out.println("\n");
+			System.out.println("                    ¡Bienvenido " + usuario.getNombre() + "!" + " \n");
+			System.out.println("Saldo disponible: $" + usuario.getDinero() + "     Tiempo disponible: "
+					+ usuario.getTiempo() + " hs." + "\n");
+			System.out.println("                Atracción favorita: " + usuario.getTipo());
+			System.out.println("\n");
 
-				// for (int i = 0; i < ofertas.length; j++) {
+			for (Ofertable oferta : ofertas) {
 
-				// Ofertable oferta = ofertas[i];
+				if (usuario.puedeComprar(oferta) && !atraccionComprada.contains(oferta)) {
 
-				for (Ofertable oferta : ofertas) {
+					System.out.println(oferta);
+					System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + " \n");
+					System.out.println("Duración = " + oferta.getTiempo() + "hs. \n");
+					System.out.println("¿Desea comprarlo? " + "(s/n)");
 
-					if (usuario.puedeComprar(oferta) && !atraccionComprada.contains(oferta)) {
+					String acepta;
+					do {
+						System.out.println("Introduzca el caracter 's' o 'n' ");
+						acepta = in.nextLine();
 
-						System.out.println(oferta);
-						System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + " \n");
-						System.out.println("Duración = " + oferta.getTiempo() + "hs. \n");
-						System.out.println("¿Desea comprarlo? " + "(s/n)");
+					} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
 
-						String acepta;
-						do {
-							System.out.println("Introduzca el caracter 's' o 'n' ");
-							acepta = in.nextLine();
+					if (acepta.equalsIgnoreCase("s")) {
+						usuario.comprar(oferta);
+						oferta.actualizarCupo();
+						Itinerario itinerario = new Itinerario(usuario.getIdUsuario(), oferta.getIdPromo(),
+								oferta.getIdTipoAtraccion());
+//							System.out.println(itinerario.toString());
+						itinerarioDAO.insert(itinerario);
+//							itinerarioDAO.update(itinerario);
+						System.out.println("Saldo disponible: $" + usuario.getDinero());
 
-						} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
+						if (oferta.esPromocion()) {
+							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
 
-						if (acepta.equalsIgnoreCase("s")) {
-							usuario.comprar(oferta);
-							oferta.actualizarCupo();
-							Itinerario itinerario = new Itinerario(usuario.getIdUsuario(), oferta.getIdPromo(),
-									oferta.getIdTipoAtraccion());
-							itinerarioDAO.insert(itinerario);
-							itinerarioDAO.update(itinerario);
-
-							if (oferta.esPromocion()) {
-								for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
-
-									Atraccion a = new Atraccion();
-									a = oferta.getAtraccionesEnPromocion()[l];
-									if (!atraccionComprada.contains(a))
-										atraccionComprada.add(a);
-								}
-
-							} else {
 								Atraccion a = new Atraccion();
+								a = oferta.getAtraccionesEnPromocion()[l];
 								if (!atraccionComprada.contains(a))
 									atraccionComprada.add(a);
 							}
 
-							System.out.println("\n");
-							System.out.println("");
+						} else {
+							Atraccion a = new Atraccion();
+							if (!atraccionComprada.contains(a))
+								atraccionComprada.add(a);
 						}
 
-					}
-
-				}
-				System.out.println("Itinerario del usuario " + usuario.getNombre() + "\n");
-				System.out.println(usuario.getItinerario());
-
-				List<Itinerario> itinerarios = itinerarioDAO.findAll();
-
-				System.out.println("Itinerario del usuario " + usuario.getNombre() + "\n");
-				for (Itinerario itinerario : itinerarios) {
-					if (usuario.getIdUsuario() == itinerario.getIdUsuario()) {
-						System.out.println(itinerario);
-					}
-
-					System.out.println("**************************************************************************");
-					System.out.println(" \n");
-					System.out.println("Presione enter para continuar");
-
-					try {
-						System.in.read();
-					} catch (Exception e) {
-
+						System.out.println("\n");
+						System.out.println("");
 					}
 
 				}
 
-				System.err.println(entradaConsola);
-				in.close();
 			}
+			System.out.println("Itinerario del usuario " + usuario.getNombre() + "\n");
+			System.out.println(usuario.getItinerario());
+
+			List<Itinerario> itinerarios = itinerarioDAO.findAll();
+
+			System.out.println("Itinerario del usuario " + usuario.getNombre() + "\n");
+			for (Itinerario itinerario : itinerarios) {
+				if (usuario.getIdUsuario() == itinerario.getIdUsuario()) {
+					System.out.println(itinerario);
+				}
+
+				System.out.println("**************************************************************************");
+				System.out.println(" \n");
+				System.out.println("Presione enter para continuar");
+
+				try {
+					System.in.read();
+				} catch (Exception e) {
+
+				}
+
+			}
+
+			System.err.println(entradaConsola);
+			in.close();
 		}
 	}
+}
 //}

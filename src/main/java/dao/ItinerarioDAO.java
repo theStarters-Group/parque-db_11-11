@@ -13,6 +13,7 @@ import modelo.Itinerario;
 public class ItinerarioDAO {
 
 	public int insert(Itinerario itinerario) throws SQLException {
+
 		String sql = "INSERT INTO itinerarios (id_usuario, id_atraccion, id_promo) VALUES (?, ?, ?)";
 		Connection conn = ConnectionProvider.getConnection();
 
@@ -23,9 +24,10 @@ public class ItinerarioDAO {
 		int rows = statement.executeUpdate();
 
 		return rows;
+
 	}
 
-	public  int update(Itinerario itinerario) throws SQLException {
+	public int update(Itinerario itinerario) throws SQLException {
 		String sql = "UPDATE ITINERARIOS SET id_usuario = ? WHERE id_usuario = ?";
 		Connection conn = ConnectionProvider.getConnection();
 
