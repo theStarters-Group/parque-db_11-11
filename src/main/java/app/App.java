@@ -38,8 +38,6 @@ public class App {
 		AtraccionPorPromocionDAO atraccionPorPromocionDAO = new AtraccionPorPromocionDAO();
 		List<AtraccionPorPromocion> atracciones_promo = atraccionPorPromocionDAO.findAll();
 		ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
-		// PromocionDAO listaAtraccionesDAO = new PromocionDAO();
-		// List<String> listaAtracciones = listaAtraccionesDAO.findAtracciones();
 
 		List<Ofertable> ofertas = new LinkedList<Ofertable>();
 		ofertas.addAll(promociones);
@@ -50,7 +48,6 @@ public class App {
 		Scanner in = new Scanner(System.in);
 
 		String entradaConsola = in.nextLine();
-		// System.out.println(ofertas);
 		for (Usuario usuario : usuarios) {
 
 			int atraccionFavorita = usuario.getTipo();
@@ -58,7 +55,7 @@ public class App {
 			LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
 
 			ofertas.sort(new ComparadorDeOfertas(atraccionFavorita));
-			// System.out.println(ofertas);
+
 			System.out.println("\n");
 			System.out.println("                    �Bienvenido " + usuario.getNombre() + "!" + " \n");
 			System.out.println("Saldo disponible: $" + usuario.getDinero() + "     Tiempo disponible: "
@@ -66,18 +63,14 @@ public class App {
 			System.out.println("                Atracci�n favorita: " + usuario.getTipo());
 			System.out.println("\n");
 
-			// for (int i = 0; i < ofertas.length; j++) {
-
-			// Ofertable oferta = ofertas[i];
-
 			for (Ofertable oferta : ofertas) {
 
 				if (usuario.puedeComprar(oferta) && !atraccionComprada.contains(oferta)) {
 
-					System.out.println(oferta.getNombre()+ "\n");
+					System.out.println(oferta.getNombre() + "\n");
 					System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + "");
 					System.out.println("Tipo de Atraccion=" + oferta.getTipoDeAtraccion() + " ");
-					System.out.println("Cupo atraccion="+ oferta.getCupo());
+					System.out.println("Cupo atraccion=" + oferta.getCupo());
 					System.out.println("Duraci�n = " + oferta.getTiempo() + "hs. \n");
 					System.out.println("�Desea comprarlo? " + "(s/n)");
 
