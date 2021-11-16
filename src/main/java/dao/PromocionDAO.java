@@ -16,7 +16,7 @@ public class PromocionDAO {
 		String sql = "SELECT promociones.*, group_concat(ap.id_atraccion, ' ') AS lista_atracciones\r\n"
 				+ "FROM promociones\r\n" + "join atracciones_promo ap on ap.id_promocion = promociones.id\r\n"
 				+ "GROUP BY promociones.id";
-
+		
 		Connection conn = ConnectionProvider.getConnection();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		ResultSet resultados = statement.executeQuery();

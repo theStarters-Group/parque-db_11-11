@@ -13,10 +13,8 @@ import modelo.Itinerario;
 public class ItinerarioDAO {
 
 	public int insert(Itinerario itinerario) throws SQLException {
-
 		String sql = "INSERT INTO itinerarios (id_usuario, id_atraccion, id_promo) VALUES (?, ?, ?)";
 		Connection conn = ConnectionProvider.getConnection();
-
 		PreparedStatement statement = conn.prepareStatement(sql);
 		statement.setInt(1, itinerario.getIdUsuario());
 		statement.setInt(2, itinerario.getIdPromocion());

@@ -12,7 +12,9 @@ public class Itinerario {
 		this.idAtraccion = idAtraccion;
 	}
 
+	public Itinerario() {
 
+	}
 
 	public int getIdUsuario() {
 		return idUsuario;

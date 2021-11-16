@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import dao.AtraccionDAO;
 
 public class Atraccion extends Ofertable {
-	private int idAtraccion;
+	private int idAtracccion;
 	private String nombre;
 	private double costo;
 	private double tiempo;
@@ -17,7 +17,7 @@ public class Atraccion extends Ofertable {
 	}
 
 	public Atraccion(int idAtraccion, String nombre, double costo, double tiempo, Integer cupo, int tipo) {
-		this.idAtraccion = idAtraccion;
+		this.idAtracccion = idAtraccion;
 		this.nombre = nombre;
 		this.costo = costo;
 		this.tiempo = tiempo;
@@ -27,7 +27,7 @@ public class Atraccion extends Ofertable {
 
 	@Override
 	public String toString() {
-		return this.nombre + ", Duración: " + this.tiempo + "hs, Cupo máximo: " + this.cupo + ", Tipo: " + this.tipo
+		return this.nombre + ", Duraciï¿½n: " + this.tiempo + "hs, Cupo mï¿½ximo: " + this.cupo + ", Tipo: " + this.tipo
 				+ ", Costo Original: $" + this.costo + ".\n";
 	}
 
@@ -39,19 +39,17 @@ public class Atraccion extends Ofertable {
 		return this.cupo;
 	}
 
-	@Override
+	public double getTiempo() {
+		return tiempo;
+	}
+
 	public double getCosto() {
 		return this.costo;
 	}
-	
-	@Override
-	public double getTiempo() {
-		return this.tiempo;
-	}
 
-	public double calcularCosto(Atraccion[] atraccion) {
-		return this.costo;
-	}
+//	public double calcularCosto(Atraccion[] atraccion) {
+//		return this.costo;
+//	}
 
 	@Override
 	public int getTipoDeAtraccion() {
@@ -76,7 +74,7 @@ public class Atraccion extends Ofertable {
 
 	public int getIdAtraccion() {
 
-		return idAtraccion;
+		return idAtracccion;
 	}
 
 	@Override
@@ -88,7 +86,13 @@ public class Atraccion extends Ofertable {
 	@Override
 	public int getIdTipoAtraccion() {
 
-		return tipo;
+		return 0;
+	}
+
+	@Override
+	public double calcularCosto(double datoExtra) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

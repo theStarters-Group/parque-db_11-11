@@ -12,6 +12,8 @@ public abstract class Ofertable {
 	protected double tiempo;
 	int tipoDeAtraccion;
 	protected double costo;
+	protected String nombre;
+	int cupo;
 	Atraccion[] atraccionesEnPromocion;
 
 	public abstract Atraccion[] getAtraccionesEnPromocion();
@@ -22,6 +24,14 @@ public abstract class Ofertable {
 
 	public double getCosto() {
 		return costo;
+	}
+
+	public int getCupo() {
+		return cupo;
+	}
+
+	public String getNombre() {
+		return nombre;
 	}
 
 	public boolean esPromocion() {
@@ -37,7 +47,7 @@ public abstract class Ofertable {
 
 	public abstract boolean hayCupo();
 
-	public abstract double calcularCosto(Atraccion[] atraccionesEnPromo);
+	public abstract double calcularCosto(double datoExtra);
 
 	public abstract int getIdPromo();
 

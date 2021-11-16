@@ -44,7 +44,5 @@ public class UsuarioDAO {
 		return new Usuario(resultados.getInt(1), resultados.getString(2), resultados.getInt(3), resultados.getDouble(4),
 				resultados.getDouble(5));
 	}
-	
-	
 
 }

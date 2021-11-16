@@ -1,7 +1,6 @@
 package modelo;
 
 public class Promocion extends Ofertable {
-	int idPromo;
 	int tipoPromo;
 	int tipoAtraccion;
 	String nombrePromocion;
@@ -22,22 +21,22 @@ public class Promocion extends Ofertable {
 	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
 			Atraccion[] atraccionesEnPromocion) {
 		super();
-		this.idPromo = idPromo;
 		this.tipoPromo = tipoPromo;
 		this.nombrePromocion = nombrePromocion;
 		this.atraccionesEnPromocion = atraccionesEnPromocion;
 		this.tipoAtraccion = tipoAtraccion;
+		this.costo = this.calcularCosto(datoExtra);
 	}
 
-	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
-			String atracciones) {
-		super();
-		this.idPromo = idPromo;
-		this.tipoPromo = tipoPromo;
-		this.nombrePromocion = nombrePromocion;
-		this.atraccionesEnPromocion = null;
-		this.atracciones = atracciones;
-	}
+//	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
+//			String atracciones) {
+//		super();
+//		this.tipoPromo = tipoPromo;
+//		this.nombrePromocion = nombrePromocion;
+//		this.atraccionesEnPromocion = null;
+//		this.atracciones = atracciones;
+//		this.datoExtra = datoExtra;
+//	}
 
 	public double calcularDuracion(Atraccion[] atraccionesEnPromocion) {
 		double duracionPromo = 0;
@@ -52,6 +51,7 @@ public class Promocion extends Ofertable {
 	}
 
 	public Promocion(String nombrePromocion) {
+		// this.tipoPromo = tipoPromo;
 		this.nombrePromocion = nombrePromocion;
 	}
 
@@ -74,14 +74,7 @@ public class Promocion extends Ofertable {
 	// return atraccionesEnPromocion;
 
 	// }
-
-	@Override
-	public double getCosto() {
-		return this.costo;
-	}
-	
-
-	public double calcularCosto(Atraccion[] atraccionesEnPromocion) {
+	public double calcularCosto(double datoExtra) {
 
 		switch (tipoPromo) {
 
@@ -132,7 +125,7 @@ public class Promocion extends Ofertable {
 	}
 
 	public int getTipoDeAtraccion() {
-		return tipoDeAtraccion;
+		return tipoAtraccion;
 	}
 
 	@Override
@@ -148,15 +141,26 @@ public class Promocion extends Ofertable {
 		return hayCupo;
 	}
 
+	public String getNombre() {
+		return this.nombrePromocion;
+	}
+
+	public double getCosto() {
+		return this.costo;
+	}
+
 	@Override
 	public int getIdPromo() {
-		
-		return idPromo;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int getIdTipoAtraccion() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 }
