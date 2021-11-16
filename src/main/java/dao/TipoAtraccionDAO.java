@@ -25,7 +25,7 @@ public class TipoAtraccionDAO {
 
 		return tipoAtracciones;
 	}
-	
+
 	public String findByIdAtraccion(int id) throws SQLException {
 		String sql = "SELECT nombre FROM tipo_atracciones WHERE ID = ?";
 		Connection conn = ConnectionProvider.getConnection();
@@ -34,21 +34,13 @@ public class TipoAtraccionDAO {
 		ResultSet resultados = statement.executeQuery();
 
 		String nombreAtraccion = null;
-		
+
 		if (resultados.next()) {
-	    nombreAtraccion = resultados.getString(2);
+			nombreAtraccion = resultados.getString(2);
 		}
-		
 
 		return nombreAtraccion;
 	}
-
-	
-	//private String toNombreAtraccion(ResultSet resultados)throws SQLException {
-	//	return resultados.getString(1);
-	//} 
-		
-		
 
 	private TipoAtraccion toTipoAtraccion(ResultSet resultados) throws SQLException {
 		return new TipoAtraccion(resultados.getInt(1), resultados.getString(2));
