@@ -15,8 +15,11 @@ public abstract class Ofertable {
 	protected String nombre;
 	int cupo;
 	Atraccion[] atraccionesEnPromocion;
+	public Object getAtraccionesEnPromocion;
 
-	public abstract Atraccion[] getAtraccionesEnPromocion();
+	public Atraccion[] getAtraccionesEnPromocion() {
+		return null;
+	}
 
 	public double getTiempo() {
 		return tiempo;
@@ -39,7 +42,7 @@ public abstract class Ofertable {
 
 	public abstract void actualizarCupo();
 
-	public int getTipoDeAtraccion() {
+	public int getTipoAtraccion() {
 		return tipoDeAtraccion;
 	}
 

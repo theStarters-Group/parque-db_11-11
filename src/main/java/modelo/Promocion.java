@@ -89,7 +89,7 @@ public class Promocion extends Ofertable {
 		return calcularDuracion(atraccionesEnPromocion);
 	}
 
-	public int getTipoDeAtraccion() {
+	public int getTipoAtraccion() {
 		return this.tipoAtraccion;
 	}
 
@@ -109,10 +109,10 @@ public class Promocion extends Ofertable {
 	}
 
 	public int getCupo() {
-		int i = 0;
-		while (i < this.getAtraccionesEnPromocion().length) {
+
+		for (int i = 0; i < this.getAtraccionesEnPromocion().length; i++) {
 			this.cupo += atraccionesEnPromocion[i].getCupo();
-			i++;
+
 		}
 		return this.cupo;
 	}

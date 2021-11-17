@@ -57,7 +57,7 @@ public class Usuario {
 		return "Usuario [nombre=" + nombre + ", tipo=" + tipo + ", dinero=" + dinero + ",tiempo=" + tiempo + "]\n";
 	}
 
-	public void comprar(Ofertable oferta)throws SQLException {
+	public void comprar(Ofertable oferta) throws SQLException {
 		if (oferta.hayCupo() && this.puedeComprar(oferta)) {
 			itinerario.add(oferta);
 			this.dinero -= oferta.getCosto();
@@ -71,8 +71,6 @@ public class Usuario {
 
 		return this.dinero >= oferta.getCosto() && this.tiempo >= oferta.getTiempo();
 
-		
-		
 	}
 
 	public LinkedList<Ofertable> getItinerario() {

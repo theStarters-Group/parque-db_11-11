@@ -11,9 +11,9 @@ public class ComparadorDeOfertas implements Comparator<Ofertable> {
 
 	public int compare(Ofertable o1, Ofertable o2) {
 
-		if (o2.getTipoDeAtraccion() == atraccionFavorita && o1.getTipoDeAtraccion() != atraccionFavorita) {
+		if (o2.getTipoAtraccion() == atraccionFavorita && o1.getTipoAtraccion() != atraccionFavorita) {
 			return 1;
-		} else if (o2.getTipoDeAtraccion() != atraccionFavorita && o1.getTipoDeAtraccion() == atraccionFavorita) {
+		} else if (o2.getTipoAtraccion() != atraccionFavorita && o1.getTipoAtraccion() == atraccionFavorita) {
 			return -1;
 		}
 		if (o2.esPromocion() && !o1.esPromocion()) {

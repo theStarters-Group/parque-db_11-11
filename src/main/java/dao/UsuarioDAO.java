@@ -27,7 +27,7 @@ public class UsuarioDAO {
 	}
 
 	public int update(Usuario usuario) throws SQLException {
-		String sql = "UPDATE USUARIOS SET dinero = ?, tiempo=? WHERE id_usuario = ?";
+		String sql = "UPDATE USUARIOS SET dinero_disponible = ?, tiempo_disponible=? WHERE id = ?";
 		Connection conn = ConnectionProvider.getConnection();
 
 		PreparedStatement statement = conn.prepareStatement(sql);

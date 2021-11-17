@@ -52,15 +52,15 @@ public class Atraccion extends Ofertable {
 //	}
 
 	@Override
-	public int getTipoDeAtraccion() {
+	public int getTipoAtraccion() {
 
 		return tipo;
 	}
 
-	@Override
-	public Atraccion[] getAtraccionesEnPromocion() {
-		return null;
-	}
+//	@Override
+//	public Atraccion[] getAtraccionesEnPromocion() {
+//		return null;
+//	}
 
 	@Override
 	public void actualizarCupo() {

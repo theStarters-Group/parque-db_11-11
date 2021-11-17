@@ -10,6 +10,7 @@ import java.util.List;
 import jdbc.ConnectionProvider;
 import modelo.Atraccion;
 import modelo.Itinerario;
+import modelo.Ofertable;
 
 public class AtraccionDAO {
 
@@ -23,21 +24,21 @@ public class AtraccionDAO {
 		statement.setDouble(3, atraccion.getCosto());
 		statement.setDouble(4, atraccion.getTiempo());
 		statement.setDouble(5, atraccion.getCupo());
-		statement.setDouble(6, atraccion.getTipoDeAtraccion());
+		statement.setDouble(6, atraccion.getTipoAtraccion());
 
 		int rows = statement.executeUpdate();
 
 		return rows;
 	}
 
-	public int updateCupo(Atraccion atraccion) throws SQLException {
+	public int updateCupo(Ofertable oferta) throws SQLException {
 		String sql = "UPDATE atracciones SET cupo = ? WHERE id = ?";
 		Connection conn = ConnectionProvider.getConnection();
 
 		PreparedStatement statement = conn.prepareStatement(sql);
 
-		statement.setDouble(1, atraccion.getCupo());
-		statement.setInt(2, atraccion.getIdAtraccion());
+		statement.setDouble(1, oferta.getCupo());
+		statement.setInt(2, oferta.getTipoAtraccion());
 		int rows = statement.executeUpdate();
 
 		return rows;

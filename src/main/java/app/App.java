@@ -66,7 +66,7 @@ public class App {
 
 					System.out.println(oferta.getNombre() + "\n");
 					System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + "");
-					System.out.println("Tipo de Atraccion=" + oferta.getTipoDeAtraccion() + " ");
+					System.out.println("Tipo de Atraccion=" + oferta.getTipoAtraccion() + " ");
 					System.out.println("Cupo atraccion=" + oferta.getCupo());
 					System.out.println("Duraci�n = " + oferta.getTiempo() + "hs. \n");
 					System.out.println("�Desea comprarlo? " + "(s/n)");
@@ -78,13 +78,22 @@ public class App {
 					} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
 
 					if (acepta.equalsIgnoreCase("s")) {
+						System.out.println(oferta.getAtraccionesEnPromocion());
 						usuario.comprar(oferta);
-						oferta.actualizarCupo();
+						usuarioDAO.update(usuario);
+						System.out.println(oferta.getCupo());
+						atraccionDAO.updateCupo(oferta);
 						Itinerario itinerario = new Itinerario(usuario.getIdUsuario(), oferta.getIdPromo(),
 								oferta.getIdTipoAtraccion());
 						itinerarioDAO.insert(itinerario);
 
 						if (oferta.esPromocion()) {
+//							for (Atraccion atraccion:atracciones) {
+//								for(int i=0; oferta.getAtraccionesEnPromocion.lenght;i++) {
+//								if (atraccion.getIdTipoAtraccion()==oferta.getAtraccionesEnPromocion[i]){
+//									atraccion.cupo-=1;
+//								}
+//							}
 							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
 
 								Atraccion a = new Atraccion();
@@ -106,7 +115,6 @@ public class App {
 				}
 
 			}
-			List<Itinerario> itinerarios = itinerarioDAO.findAll();
 			System.out.println("**************************************************************************");
 			System.out.println(" \n");
 			System.out.println("Presione enter para continuar");
