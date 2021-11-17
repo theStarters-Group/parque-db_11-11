@@ -35,8 +35,6 @@ public class App {
 		List<Atraccion> atracciones = atraccionDAO.findAll();
 		PromocionDAO promocionDAO = new PromocionDAO();
 		List<Promocion> promociones = promocionDAO.findAll();
-		AtraccionPorPromocionDAO atraccionPorPromocionDAO = new AtraccionPorPromocionDAO();
-		List<AtraccionPorPromocion> atracciones_promo = atraccionPorPromocionDAO.findAll();
 		ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
 
 		List<Ofertable> ofertas = new LinkedList<Ofertable>();
@@ -62,10 +60,9 @@ public class App {
 					+ usuario.getTiempo() + " hs." + "\n");
 			System.out.println("                Atracci�n favorita: " + usuario.getTipo());
 			System.out.println("\n");
-
 			for (Ofertable oferta : ofertas) {
 
-				if (usuario.puedeComprar(oferta) && !atraccionComprada.contains(oferta)) {
+				if (usuario.puedeComprar(oferta) && !atraccionComprada.contains(oferta) && oferta.getCupo() > 0) {
 
 					System.out.println(oferta.getNombre() + "\n");
 					System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + "");
@@ -78,7 +75,6 @@ public class App {
 					do {
 						System.out.println("Introduzca el caracter 's' o 'n' ");
 						acepta = in.nextLine();
-
 					} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
 
 					if (acepta.equalsIgnoreCase("s")) {
@@ -87,7 +83,6 @@ public class App {
 						Itinerario itinerario = new Itinerario(usuario.getIdUsuario(), oferta.getIdPromo(),
 								oferta.getIdTipoAtraccion());
 						itinerarioDAO.insert(itinerario);
-						itinerarioDAO.update(itinerario);
 
 						if (oferta.esPromocion()) {
 							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
@@ -111,24 +106,14 @@ public class App {
 				}
 
 			}
-
 			List<Itinerario> itinerarios = itinerarioDAO.findAll();
+			System.out.println("**************************************************************************");
+			System.out.println(" \n");
+			System.out.println("Presione enter para continuar");
 
-			System.out.println("Itinerario del usuario " + usuario.getNombre() + "\n");
-			for (Itinerario itinerario : itinerarios) {
-				if (usuario.getIdUsuario() == itinerario.getIdUsuario()) {
-					System.out.println(itinerario);
-				}
-
-				System.out.println("**************************************************************************");
-				System.out.println(" \n");
-				System.out.println("Presione enter para continuar");
-
-				try {
-					System.in.read();
-				} catch (Exception e) {
-
-				}
+			try {
+				System.in.read();
+			} catch (Exception e) {
 
 			}
 

@@ -1,42 +1,27 @@
 package modelo;
 
 public class Promocion extends Ofertable {
-	int tipoPromo;
-	int tipoAtraccion;
-	String nombrePromocion;
-	public Atraccion[] atraccionesEnPromocion;
-	double datoExtra;
-	public String atracciones;
-	double costo;
-	String[] atraccionesPromo;
-
-	public String getAtracciones() {
-		return atracciones;
-	}
-
-	public Atraccion[] getAtraccionesEnPromocion() {
-		return atraccionesEnPromocion;
-	}
+	protected int tipoPromo;
+	protected int tipoAtraccion;
+	protected String nombrePromocion;
+	protected Atraccion[] atraccionesEnPromocion;
+	protected double datoExtra;
+	protected String atracciones;
+	protected double costo;
+	protected int idPromo;
+	protected int cupo;
+	protected String[] atraccionesPromo;
 
 	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
 			Atraccion[] atraccionesEnPromocion) {
 		super();
 		this.tipoPromo = tipoPromo;
+		this.idPromo = idPromo;
 		this.nombrePromocion = nombrePromocion;
 		this.atraccionesEnPromocion = atraccionesEnPromocion;
 		this.tipoAtraccion = tipoAtraccion;
 		this.costo = this.calcularCosto(datoExtra);
 	}
-
-//	public Promocion(int idPromo, String nombrePromocion, int tipoPromo, int tipoAtraccion, double datoExtra,
-//			String atracciones) {
-//		super();
-//		this.tipoPromo = tipoPromo;
-//		this.nombrePromocion = nombrePromocion;
-//		this.atraccionesEnPromocion = null;
-//		this.atracciones = atracciones;
-//		this.datoExtra = datoExtra;
-//	}
 
 	public double calcularDuracion(Atraccion[] atraccionesEnPromocion) {
 		double duracionPromo = 0;
@@ -46,34 +31,10 @@ public class Promocion extends Ofertable {
 		return duracionPromo;
 	}
 
-	public double getTiempo() {
-		return calcularDuracion(atraccionesEnPromocion);
-	}
-
 	public Promocion(String nombrePromocion) {
-		// this.tipoPromo = tipoPromo;
 		this.nombrePromocion = nombrePromocion;
 	}
 
-//public Atraccion[] getAtraccionesEnPromocion(String[] a) throws SQLException {
-
-//		a = this.atracciones.split(" ");
-	// this.atraccionesEnPromocion = new Atraccion[a.length];
-
-	// int totalAtracciones = AtraccionDAO.countAll();
-
-	// for (int i = 0; i < a.length; i++) {
-
-	// for (Atraccion atraccion : atracciones) {
-	// if(Integer.parseInt(a[i])== atracciones.getIdAtraccion()) {
-
-	// atraccionesEnPromocion[i] =
-	// AtraccionDAO.getAtraccionPorId(Integer.parseInt(a[i]));
-	// }
-	// }
-	// return atraccionesEnPromocion;
-
-	// }
 	public double calcularCosto(double datoExtra) {
 
 		switch (tipoPromo) {
@@ -124,8 +85,12 @@ public class Promocion extends Ofertable {
 		}
 	}
 
+	public double getTiempo() {
+		return calcularDuracion(atraccionesEnPromocion);
+	}
+
 	public int getTipoDeAtraccion() {
-		return tipoAtraccion;
+		return this.tipoAtraccion;
 	}
 
 	@Override
@@ -135,10 +100,21 @@ public class Promocion extends Ofertable {
 		while (i < this.getAtraccionesEnPromocion().length) {
 			if (getAtraccionesEnPromocion()[i].hayCupo())
 				i++;
-			else
+			else {
 				hayCupo = false;
+				break;
+			}
 		}
 		return hayCupo;
+	}
+
+	public int getCupo() {
+		int i = 0;
+		while (i < this.getAtraccionesEnPromocion().length) {
+			this.cupo += atraccionesEnPromocion[i].getCupo();
+			i++;
+		}
+		return this.cupo;
 	}
 
 	public String getNombre() {
@@ -149,10 +125,18 @@ public class Promocion extends Ofertable {
 		return this.costo;
 	}
 
+	public Atraccion[] getAtraccionesEnPromocion() {
+		return this.atraccionesEnPromocion;
+	}
+
+	public String getAtracciones() {
+		return this.atracciones;
+	}
+
 	@Override
 	public int getIdPromo() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.idPromo;
 	}
 
 	@Override
@@ -160,7 +144,5 @@ public class Promocion extends Ofertable {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
 
 }

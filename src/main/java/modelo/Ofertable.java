@@ -26,9 +26,7 @@ public abstract class Ofertable {
 		return costo;
 	}
 
-	public int getCupo() {
-		return cupo;
-	}
+	public abstract int getCupo();
 
 	public String getNombre() {
 		return nombre;
