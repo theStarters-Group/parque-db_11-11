@@ -81,19 +81,23 @@ public class App {
 						System.out.println(oferta.getAtraccionesEnPromocion());
 						usuario.comprar(oferta);
 						usuarioDAO.update(usuario);
-						System.out.println(oferta.getCupo());
 						atraccionDAO.updateCupo(oferta);
 						Itinerario itinerario = new Itinerario(usuario.getIdUsuario(), oferta.getIdPromo(),
-								oferta.getIdTipoAtraccion());
+								oferta.getIdAtraccion());
 						itinerarioDAO.insert(itinerario);
 
 						if (oferta.esPromocion()) {
-//							for (Atraccion atraccion:atracciones) {
-//								for(int i=0; oferta.getAtraccionesEnPromocion.lenght;i++) {
-//								if (atraccion.getIdTipoAtraccion()==oferta.getAtraccionesEnPromocion[i]){
-//									atraccion.cupo-=1;
+							oferta.actualizarCupo(oferta.getAtraccionesEnPromocion());
+
+//							for (Atraccion atraccion : atracciones) {
+//								for (int i = 0; i < oferta.getAtraccionesEnPromocion().length; i++) {
+//									if (atraccion.getIdTipoAtraccion() == oferta.getAtraccionesEnPromocion()[i]) {
+//										atraccion.actualizarCupo();
+//										atraccionDAO.updateCupo(atraccion);
+//									}
 //								}
 //							}
+
 							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
 
 								Atraccion a = new Atraccion();
@@ -104,8 +108,11 @@ public class App {
 
 						} else {
 							Atraccion a = new Atraccion();
-							if (!atraccionComprada.contains(a))
+							if (!atraccionComprada.contains(a)) {
 								atraccionComprada.add(a);
+								a.actualizarCupo();
+
+							}
 						}
 
 						System.out.println("\n");

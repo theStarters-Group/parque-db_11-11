@@ -47,20 +47,11 @@ public class Atraccion extends Ofertable {
 		return this.costo;
 	}
 
-//	public double calcularCosto(Atraccion[] atraccion) {
-//		return this.costo;
-//	}
-
 	@Override
 	public int getTipoAtraccion() {
 
 		return tipo;
 	}
-
-//	@Override
-//	public Atraccion[] getAtraccionesEnPromocion() {
-//		return null;
-//	}
 
 	@Override
 	public void actualizarCupo() {
@@ -72,11 +63,6 @@ public class Atraccion extends Ofertable {
 		return this.cupo > 0;
 	}
 
-	public int getIdAtraccion() {
-
-		return idAtraccion;
-	}
-
 	@Override
 	public int getIdPromo() {
 
@@ -84,7 +70,7 @@ public class Atraccion extends Ofertable {
 	}
 
 	@Override
-	public int getIdTipoAtraccion() {
+	public int getIdAtraccion() {
 
 		return idAtraccion;
 	}
@@ -93,6 +79,12 @@ public class Atraccion extends Ofertable {
 	public double calcularCosto(double datoExtra) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void actualizarCupo(Atraccion[] atraccionesEnPromocion) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

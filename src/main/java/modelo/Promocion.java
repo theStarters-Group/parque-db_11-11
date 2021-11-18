@@ -72,12 +72,33 @@ public class Promocion extends Ofertable {
 		return tiempoTotal;
 	}
 
-	@Override
-	public void actualizarCupo() {
-		for (int i = 0; i < getAtraccionesEnPromocion().length; i++) {
-			getAtraccionesEnPromocion()[i].actualizarCupo();
+	public int calcularCupo(Atraccion[] atraccionesEnPromocion) {
+		int cupo = 0;
+		for (int i = 0; i < atraccionesEnPromocion.length; i++) {
+			cupo += atraccionesEnPromocion[i].getCupo();
 		}
+		return cupo;
 	}
+
+	public void actualizarCupo(Atraccion[] atraccionesEnPromocion) {
+
+		for (int i = 0; i < atraccionesEnPromocion.length; i++) {
+			atraccionesEnPromocion[i].actualizarCupo();
+		}
+
+	}
+//	public void actualizarCupo(Atraccion[] atraccionesEnPromocion) {
+//
+//		for (int i = 0; i < atraccionesEnPromocion.length; i++) {
+//			atraccionesEnPromocion[i].actualizarCupo();
+//		}
+//
+//	}
+//	public void actualizarCupo() {
+//		for (int i = 0; i < getAtraccionesEnPromocion().length; i++) {
+//			getAtraccionesEnPromocion()[i].actualizarCupo();
+//		}
+//	}
 
 	public void imprimirPromociones(Promocion[] promociones) {
 		for (int i = 0; i < promociones.length; i++) {
@@ -85,6 +106,7 @@ public class Promocion extends Ofertable {
 		}
 	}
 
+	@Override
 	public double getTiempo() {
 		return calcularDuracion(atraccionesEnPromocion);
 	}
@@ -110,11 +132,8 @@ public class Promocion extends Ofertable {
 
 	public int getCupo() {
 
-		for (int i = 0; i < this.getAtraccionesEnPromocion().length; i++) {
-			this.cupo += atraccionesEnPromocion[i].getCupo();
+		return this.calcularCupo(this.atraccionesEnPromocion);
 
-		}
-		return this.cupo;
 	}
 
 	public String getNombre() {
@@ -140,9 +159,15 @@ public class Promocion extends Ofertable {
 	}
 
 	@Override
-	public int getIdTipoAtraccion() {
+	public int getIdAtraccion() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void actualizarCupo() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

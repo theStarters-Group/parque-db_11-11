@@ -40,6 +40,7 @@ public abstract class Ofertable {
 
 	}
 
+	public abstract void actualizarCupo(Atraccion[] atraccionesEnPromocion);
 	public abstract void actualizarCupo();
 
 	public int getTipoAtraccion() {
@@ -52,6 +53,6 @@ public abstract class Ofertable {
 
 	public abstract int getIdPromo();
 
-	public abstract int getIdTipoAtraccion();
+	public abstract int getIdAtraccion();
 
 }

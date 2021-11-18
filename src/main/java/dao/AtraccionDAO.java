@@ -38,7 +38,7 @@ public class AtraccionDAO {
 		PreparedStatement statement = conn.prepareStatement(sql);
 
 		statement.setDouble(1, oferta.getCupo());
-		statement.setInt(2, oferta.getTipoAtraccion());
+		statement.setInt(2, oferta.getIdAtraccion());
 		int rows = statement.executeUpdate();
 
 		return rows;
@@ -105,7 +105,6 @@ public class AtraccionDAO {
 		PreparedStatement statement = conn.prepareStatement(sql);
 		statement.setInt(1, id);
 		ResultSet resultados = statement.executeQuery();
-
 
 		if (resultados.next()) {
 			atraccion = toAtraccion(resultados);
