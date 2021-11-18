@@ -78,7 +78,7 @@ public class App {
 					} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
 
 					if (acepta.equalsIgnoreCase("s")) {
-						System.out.println(oferta.getAtraccionesEnPromocion());
+						// System.out.println(oferta.getAtraccionesEnPromocion());
 						usuario.comprar(oferta);
 						usuarioDAO.update(usuario);
 						atraccionDAO.updateCupo(oferta);
@@ -102,8 +102,10 @@ public class App {
 
 								Atraccion a = new Atraccion();
 								a = oferta.getAtraccionesEnPromocion()[l];
+								// atraccionDAO.updateCupo(a);
 								if (!atraccionComprada.contains(a))
 									atraccionComprada.add(a);
+								atraccionDAO.updateCupo(a);
 							}
 
 						} else {
@@ -111,6 +113,7 @@ public class App {
 							if (!atraccionComprada.contains(a)) {
 								atraccionComprada.add(a);
 								a.actualizarCupo();
+								atraccionDAO.updateCupo(a);
 
 							}
 						}
