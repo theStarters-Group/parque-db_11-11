@@ -62,7 +62,7 @@ public class App {
 			System.out.println("\n");
 			for (Ofertable oferta : ofertas) {
 
-				if (usuario.puedeComprar(oferta) && !atraccionComprada.contains(oferta) && oferta.getCupo() > 0) {
+				if (usuario.puedeComprar(oferta, atraccionComprada)) {
 
 					System.out.println(oferta.getNombre() + "\n");
 					System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + "");
@@ -78,52 +78,31 @@ public class App {
 					} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
 
 					if (acepta.equalsIgnoreCase("s")) {
-						// System.out.println(oferta.getAtraccionesEnPromocion());
-						usuario.comprar(oferta);
+						// System.out.println(atraccionComprada);
+						usuario.comprar(oferta, atraccionComprada);
 						usuarioDAO.update(usuario);
 						atraccionDAO.updateCupo(oferta);
 						Itinerario itinerario = new Itinerario(usuario.getIdUsuario(), oferta.getIdPromo(),
 								oferta.getIdAtraccion());
 						itinerarioDAO.insert(itinerario);
-
 						if (oferta.esPromocion()) {
-							oferta.actualizarCupo(oferta.getAtraccionesEnPromocion());
-
-//							for (Atraccion atraccion : atracciones) {
-//								for (int i = 0; i < oferta.getAtraccionesEnPromocion().length; i++) {
-//									if (atraccion.getIdTipoAtraccion() == oferta.getAtraccionesEnPromocion()[i]) {
-//										atraccion.actualizarCupo();
-//										atraccionDAO.updateCupo(atraccion);
-//									}
-//								}
-//							}
-
 							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
-
-								Atraccion a = new Atraccion();
-								a = oferta.getAtraccionesEnPromocion()[l];
-								// atraccionDAO.updateCupo(a);
-								if (!atraccionComprada.contains(a))
-									atraccionComprada.add(a);
-								atraccionDAO.updateCupo(a);
+								if (!atraccionComprada.contains(oferta.getAtraccionesEnPromocion()[l])) {
+									atraccionComprada.add(oferta.getAtraccionesEnPromocion()[l]);
+									// System.out.println(atraccionComprada);
+									atraccionDAO.updateCupo(oferta.getAtraccionesEnPromocion()[l]);
+								}
 							}
-
 						} else {
-							Atraccion a = new Atraccion();
-							if (!atraccionComprada.contains(a)) {
-								atraccionComprada.add(a);
-								a.actualizarCupo();
-								atraccionDAO.updateCupo(a);
-
+							if (!atraccionComprada.contains(oferta)) {
+								atraccionComprada.add((Atraccion) oferta);
+								atraccionDAO.updateCupo(oferta);
 							}
 						}
-
 						System.out.println("\n");
 						System.out.println("");
 					}
-
 				}
-
 			}
 			System.out.println("**************************************************************************");
 			System.out.println(" \n");
@@ -132,9 +111,7 @@ public class App {
 			try {
 				System.in.read();
 			} catch (Exception e) {
-
 			}
-
 		}
 		System.err.println(entradaConsola);
 		in.close();

@@ -57,19 +57,25 @@ public class Usuario {
 		return "Usuario [nombre=" + nombre + ", tipo=" + tipo + ", dinero=" + dinero + ",tiempo=" + tiempo + "]\n";
 	}
 
-	public void comprar(Ofertable oferta) throws SQLException {
-		if (oferta.hayCupo() && this.puedeComprar(oferta)) {
+	public void comprar(Ofertable oferta, LinkedList<Atraccion> atraccionComprada) throws SQLException {
+		if (oferta.hayCupo() && this.puedeComprar(oferta, atraccionComprada)) {
 			itinerario.add(oferta);
 			this.dinero -= oferta.getCosto();
 			this.tiempo -= oferta.getTiempo();
-			oferta.actualizarCupo();
+			if (oferta.esPromocion()) {
+				oferta.actualizarCupo(oferta.getAtraccionesEnPromocion());
+			} else {
+				oferta.actualizarCupo();
+			}
 		}
 
 	}
 
-	public boolean puedeComprar(Ofertable oferta) {
+	public boolean puedeComprar(Ofertable oferta, LinkedList<Atraccion> atraccionComprada) {
+		// LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
 
-		return this.dinero >= oferta.getCosto() && this.tiempo >= oferta.getTiempo();
+		return this.dinero >= oferta.getCosto() && this.tiempo >= oferta.getTiempo() && oferta.getCupo() > 0
+				&& !this.atraccionComprada.contains(oferta);
 
 	}
 
