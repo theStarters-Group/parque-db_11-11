@@ -4,7 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Usuario {
 
@@ -57,8 +59,8 @@ public class Usuario {
 		return "Usuario [nombre=" + nombre + ", tipo=" + tipo + ", dinero=" + dinero + ",tiempo=" + tiempo + "]\n";
 	}
 
-	public void comprar(Ofertable oferta, LinkedList<Atraccion> atraccionComprada) throws SQLException {
-		if (oferta.hayCupo() && this.puedeComprar(oferta, atraccionComprada)) {
+	public void comprar(Ofertable oferta, HashMap<Atraccion, String> atraccionComprada2) throws SQLException {
+		if (oferta.hayCupo() && this.puedeComprar(oferta, atraccionComprada2)) {
 			itinerario.add(oferta);
 			this.dinero -= oferta.getCosto();
 			this.tiempo -= oferta.getTiempo();
@@ -71,7 +73,7 @@ public class Usuario {
 
 	}
 
-	public boolean puedeComprar(Ofertable oferta, LinkedList<Atraccion> atraccionComprada) {
+	public boolean puedeComprar(Ofertable oferta, HashMap<Atraccion, String> atraccionComprada2) {
 		// LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
 
 		return this.dinero >= oferta.getCosto() && this.tiempo >= oferta.getTiempo() && oferta.getCupo() > 0

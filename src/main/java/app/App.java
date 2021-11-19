@@ -3,9 +3,13 @@ package app;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.event.ChangeListener;
+
 import java.io.IOException;
 
 import dao.AtraccionDAO;
@@ -49,9 +53,7 @@ public class App {
 		for (Usuario usuario : usuarios) {
 
 			int atraccionFavorita = usuario.getTipo();
-
-			LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
-
+			HashMap<Atraccion, String> atraccionComprada = new HashMap<Atraccion, String>();
 			ofertas.sort(new ComparadorDeOfertas(atraccionFavorita));
 
 			System.out.println("\n");
@@ -87,17 +89,13 @@ public class App {
 						itinerarioDAO.insert(itinerario);
 						if (oferta.esPromocion()) {
 							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
-								if (!atraccionComprada.contains(oferta.getAtraccionesEnPromocion()[l])) {
-									atraccionComprada.add(oferta.getAtraccionesEnPromocion()[l]);
-									// System.out.println(atraccionComprada);
-									atraccionDAO.updateCupo(oferta.getAtraccionesEnPromocion()[l]);
-								}
+								atraccionComprada.putIfAbsent(oferta.getAtraccionesEnPromocion()[l], "0");
+								// System.out.println(atraccionComprada);
+								atraccionDAO.updateCupo(oferta.getAtraccionesEnPromocion()[l]);
 							}
 						} else {
-							if (!atraccionComprada.contains(oferta)) {
-								atraccionComprada.add((Atraccion) oferta);
-								atraccionDAO.updateCupo(oferta);
-							}
+							atraccionComprada.putIfAbsent((Atraccion) oferta, "0");
+							atraccionDAO.updateCupo(oferta);
 						}
 						System.out.println("\n");
 						System.out.println("");
