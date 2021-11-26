@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Usuario {
 
@@ -59,26 +58,28 @@ public class Usuario {
 		return "Usuario [nombre=" + nombre + ", tipo=" + tipo + ", dinero=" + dinero + ",tiempo=" + tiempo + "]\n";
 	}
 
-	public void comprar(Ofertable oferta, HashMap<Atraccion, String> atraccionComprada2) throws SQLException {
-		if (oferta.hayCupo() && this.puedeComprar(oferta, atraccionComprada2)) {
-			itinerario.add(oferta);
-			this.dinero -= oferta.getCosto();
-			this.tiempo -= oferta.getTiempo();
-			if (oferta.esPromocion()) {
-				oferta.actualizarCupo(oferta.getAtraccionesEnPromocion());
-			} else {
-				oferta.actualizarCupo();
+	public void comprar(Ofertable oferta, HashMap<Atraccion, String> atraccionComprada) throws SQLException {
+		itinerario.add(oferta);
+		this.dinero -= oferta.getCosto();
+		this.tiempo -= oferta.getTiempo();
+		if (oferta.esPromocion()) {
+			oferta.actualizarCupo(oferta.getAtraccionesEnPromocion());
+
+			for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
+				atraccionComprada.putIfAbsent(oferta.getAtraccionesEnPromocion()[l], "0");
+
 			}
+		} else {
+			atraccionComprada.putIfAbsent((Atraccion) oferta, "0");
+			oferta.actualizarCupo();
 		}
 
 	}
 
-	public boolean puedeComprar(Ofertable oferta, HashMap<Atraccion, String> atraccionComprada2) {
-		// LinkedList<Atraccion> atraccionComprada = new LinkedList<Atraccion>();
+	public boolean puedeComprar(Ofertable oferta, HashMap<Atraccion, String> atraccionComprada) {
 
 		return this.dinero >= oferta.getCosto() && this.tiempo >= oferta.getTiempo() && oferta.getCupo() > 0
-				&& !this.atraccionComprada.contains(oferta);
-
+				&& !oferta.contenidoEn(atraccionComprada);
 	}
 
 	public LinkedList<Ofertable> getItinerario() {

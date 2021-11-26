@@ -1,9 +1,5 @@
 package modelo;
 
-import java.sql.SQLException;
-
-import dao.AtraccionDAO;
-
 public class Atraccion extends Ofertable {
 	private int idAtraccion;
 	private String nombre;

@@ -1,28 +1,17 @@
 package app;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.event.ChangeListener;
-
-import java.io.IOException;
-
 import dao.AtraccionDAO;
-import dao.AtraccionPorPromocionDAO;
 import dao.ItinerarioDAO;
 import dao.PromocionDAO;
-import dao.TipoAtraccionDAO;
 import dao.UsuarioDAO;
 import modelo.Atraccion;
-import modelo.AtraccionPorPromocion;
 import modelo.Itinerario;
 import modelo.Promocion;
-import modelo.TipoAtraccion;
 import modelo.Usuario;
 import modelo.Ofertable;
 import modelo.ComparadorDeOfertas;
@@ -33,12 +22,10 @@ public class App {
 
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		List<Usuario> usuarios = usuarioDAO.findAll();
-		TipoAtraccionDAO tipoAtraccionDAO = new TipoAtraccionDAO();
-		List<TipoAtraccion> tipoAtracciones = tipoAtraccionDAO.findAll();
 		AtraccionDAO atraccionDAO = new AtraccionDAO();
 		List<Atraccion> atracciones = atraccionDAO.findAll();
 		PromocionDAO promocionDAO = new PromocionDAO();
-		List<Promocion> promociones = promocionDAO.findAll();
+		List<Promocion> promociones = promocionDAO.findAll(atracciones);
 		ItinerarioDAO itinerarioDAO = new ItinerarioDAO();
 
 		List<Ofertable> ofertas = new LinkedList<Ofertable>();
@@ -59,7 +46,7 @@ public class App {
 			System.out.println("\n");
 			System.out.println("                    �Bienvenido " + usuario.getNombre() + "!" + " \n");
 			System.out.println("Saldo disponible: $" + usuario.getDinero() + "     Tiempo disponible: "
-					+ usuario.getTiempo() + " hs." + "\n");
+					+ String.format("%.1f", (usuario.getTiempo())) + " hs." + "\n");
 			System.out.println("                Atracci�n favorita: " + usuario.getTipo());
 			System.out.println("\n");
 			for (Ofertable oferta : ofertas) {
@@ -70,7 +57,7 @@ public class App {
 					System.out.println("Costo = $" + Math.round(oferta.getCosto() * 100) / 100 + "");
 					System.out.println("Tipo de Atraccion=" + oferta.getTipoAtraccion() + " ");
 					System.out.println("Cupo atraccion=" + oferta.getCupo());
-					System.out.println("Duraci�n = " + oferta.getTiempo() + "hs. \n");
+					System.out.println("Duraci�n = " + String.format("%.1f", (oferta.getTiempo())) + "hs. \n");
 					System.out.println("�Desea comprarlo? " + "(s/n)");
 
 					String acepta;
@@ -80,7 +67,6 @@ public class App {
 					} while (!(acepta.equalsIgnoreCase("s")) && !(acepta.equalsIgnoreCase("n")));
 
 					if (acepta.equalsIgnoreCase("s")) {
-						// System.out.println(atraccionComprada);
 						usuario.comprar(oferta, atraccionComprada);
 						usuarioDAO.update(usuario);
 						atraccionDAO.updateCupo(oferta);
@@ -89,12 +75,9 @@ public class App {
 						itinerarioDAO.insert(itinerario);
 						if (oferta.esPromocion()) {
 							for (int l = 0; l < oferta.getAtraccionesEnPromocion().length; l++) {
-								atraccionComprada.putIfAbsent(oferta.getAtraccionesEnPromocion()[l], "0");
-								// System.out.println(atraccionComprada);
 								atraccionDAO.updateCupo(oferta.getAtraccionesEnPromocion()[l]);
 							}
 						} else {
-							atraccionComprada.putIfAbsent((Atraccion) oferta, "0");
 							atraccionDAO.updateCupo(oferta);
 						}
 						System.out.println("\n");

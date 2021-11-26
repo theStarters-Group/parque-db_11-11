@@ -12,18 +12,18 @@ import modelo.Atraccion;
 import modelo.Promocion;
 
 public class PromocionDAO {
-	public List<Promocion> findAll() throws SQLException {
+	public List<Promocion> findAll(List<Atraccion> atracciones) throws SQLException {
 		String sql = "SELECT promociones.*, group_concat(ap.id_atraccion, ' ') AS lista_atracciones\r\n"
 				+ "FROM promociones\r\n" + "join atracciones_promo ap on ap.id_promocion = promociones.id\r\n"
 				+ "GROUP BY promociones.id";
-		
+
 		Connection conn = ConnectionProvider.getConnection();
 		PreparedStatement statement = conn.prepareStatement(sql);
 		ResultSet resultados = statement.executeQuery();
 
 		List<Promocion> promociones = new LinkedList<Promocion>();
 		while (resultados.next()) {
-			promociones.add(toPromocion(resultados));
+			promociones.add(toPromocion(resultados, atracciones));
 		}
 
 		return promociones;
@@ -61,16 +61,20 @@ public class PromocionDAO {
 		return total;
 	}
 
-	private Promocion toPromocion(ResultSet resultados) throws SQLException {
+	private Promocion toPromocion(ResultSet resultados, List<Atraccion> atracciones) throws SQLException {
 		String[] s = resultados.getString(6).split(" ");
 		Atraccion[] atraccionesEnPromo = new Atraccion[s.length];
 
 		for (int i = 0; i < s.length; i++) {
-			atraccionesEnPromo[i] = AtraccionDAO.getAtraccionPorId(Integer.parseInt(s[i]));
+
+			for (Atraccion atraccion : atracciones) {
+				if (atraccion.getIdAtraccion() == Integer.parseInt(s[i])) {
+					atraccionesEnPromo[i] = atraccion;
+				}
+			}
 		}
 
 		return new Promocion(resultados.getInt(1), resultados.getString(2), resultados.getInt(3), resultados.getInt(4),
 				resultados.getDouble(5), atraccionesEnPromo);
 	}
-
 }

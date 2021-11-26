@@ -1,11 +1,5 @@
 package modelo;
-
-import java.sql.SQLException;
-
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.HashMap;
 
 public abstract class Ofertable {
 
@@ -41,6 +35,7 @@ public abstract class Ofertable {
 	}
 
 	public abstract void actualizarCupo(Atraccion[] atraccionesEnPromocion);
+
 	public abstract void actualizarCupo();
 
 	public int getTipoAtraccion() {
@@ -50,6 +45,22 @@ public abstract class Ofertable {
 	public abstract boolean hayCupo();
 
 	public abstract double calcularCosto(double datoExtra);
+
+	public boolean contenidoEn(HashMap<Atraccion, String> atraccionComprada) {
+		boolean estaContenida = false;
+		int i = 0;
+		if (this.esPromocion()) {
+			while (i < this.getAtraccionesEnPromocion().length && estaContenida == false) {
+
+				estaContenida = atraccionComprada.containsKey(this.getAtraccionesEnPromocion()[i]);
+
+				i++;
+			}
+			return estaContenida;
+		} else {
+			return atraccionComprada.containsKey(this);
+		}
+	}
 
 	public abstract int getIdPromo();
 

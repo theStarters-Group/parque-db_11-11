@@ -85,20 +85,7 @@ public class Promocion extends Ofertable {
 		for (int i = 0; i < atraccionesEnPromocion.length; i++) {
 			atraccionesEnPromocion[i].actualizarCupo();
 		}
-
 	}
-//	public void actualizarCupo(Atraccion[] atraccionesEnPromocion) {
-//
-//		for (int i = 0; i < atraccionesEnPromocion.length; i++) {
-//			atraccionesEnPromocion[i].actualizarCupo();
-//		}
-//
-//	}
-//	public void actualizarCupo() {
-//		for (int i = 0; i < getAtraccionesEnPromocion().length; i++) {
-//			getAtraccionesEnPromocion()[i].actualizarCupo();
-//		}
-//	}
 
 	public void imprimirPromociones(Promocion[] promociones) {
 		for (int i = 0; i < promociones.length; i++) {

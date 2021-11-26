@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-
 import jdbc.ConnectionProvider;
 import modelo.Atraccion;
-import modelo.Itinerario;
 import modelo.Ofertable;
 
 public class AtraccionDAO {
